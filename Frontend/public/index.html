@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title>Happy House</title>
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script>
+      Kakao.init("87a3d0409b24dfd6528e22de6f87e856");
+      console.log(Kakao.isInitialized());
+    </script>
+    <link rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./assets/css/animate.css" />
+    <link rel="stylesheet" href="./assets/css/tailwind.css" />
+
+    <!-- ==== WOW JS ==== -->
+    <script src="./assets/js/wow.min.js"></script>
+    <script>
+      new WOW().init();
+    </script>
+  </head>
+
+  <body>
+    <noscript>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without
+        JavaScript enabled. Please enable it to continue.</strong
+      >
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

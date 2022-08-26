@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- Bootstrap 5 버전 -->
+<!-- https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+	integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+	integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+	crossorigin="anonymous"></script>
+
+<script
+	src="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/alertify.min.js"></script>
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/css/alertify.min.css" />
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/alertifyjs@1.12.0/build/css/themes/default.min.css" />
+<link rel="stylesheet" href="/css/main.css">
+
+
+<title>행복한 집</title>
+</head>
+<body>
+	<nav
+		class="navbar navbar-expand-sm bg-light navbar-dark fixed-top shadow">
+		<div class="container">
+			<a class="navbar-brand" href="./index.html"> <img
+				src="./img/main_icon.JPG" class="logo" alt="Logo"
+				style="height: 50px; width: 150px" />
+			</a>
+			<!-- Toggler/collapsibe Button -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- Navbar links -->
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link text-info"
+						id="btnBoard" href="./board">공지사항</a></li>
+					<li class="nav-item"><a class="nav-link text-info"
+						href="./apt.html">아파트매매정보</a></li>
+					<li class="nav-item"><a class="nav-link text-info"
+						href="./hospital.html">의료정보</a></li>
+					<li class="nav-item"><a class="nav-link text-info"
+						href="./news.html">뉴스</a></li>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse justify-content-end"
+				id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					
+					<!-- <li id="navLogin" class="nav-item open"><a
+						class="nav-link text-dark" href="/login" data-toggle="modal"
+						data-target="#loginModal">로그인</a></li>
+					<li id="navRegister" class="nav-item open"><a
+						class="nav-link text-dark" href="/register" data-toggle="modal"
+						data-target="#signupModal">회원가입</a></li> -->
+					
+					<li id="navMyPage" class="nav-item"><a
+						class="nav-link text-dark" href="/modify" data-toggle="modal"
+						data-target="#modifyModal">회원정보</a></li>
+					<li id="navMyPage" class="nav-item"><a
+						class="nav-link text-dark" href="/logout" data-toggle="modal"
+						data-target="#modifyModal">로그아웃</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="carouselExampleControls" class="carousel slide"
+		data-bs-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src="img/banner1.jpg" class="d-block w-100" alt="house1">
+			</div>
+			<div class="carousel-item">
+				<img src="img/banner2.jpg" class="d-block w-100" alt="house2">
+			</div>
+			<div class="carousel-item">
+				<img src="img/banner3.jpg" class="d-block w-100" alt="house3">
+			</div>
+			<div class="carousel-item">
+				<img src="img/banner4.jpg" class="d-block w-100" alt="house4">
+			</div>
+			<div class="carousel-item">
+				<img src="img/banner5.jpg" class="d-block w-100" alt="house5">
+			</div>
+		</div>
+		<button class="carousel-control-prev" type="button"
+			data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button"
+			data-bs-target="#carouselExampleControls" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Next</span>
+		</button>
+	</div>
+
+	<div class="search-bar">
+		<select name="city" id="city" onchange="categoryChange(this)">
+			<option value="Seoul">서울</option>
+			<option value="Busan">부산</option>
+			<option value="Daejeon">대전</option>
+		</select> <label for="city">광역시</label> <select name="gu" id="gu">
+			<option>전체</option>
+			<!-- 자바 스크립트로 추가 -->
+		</select> <label for="gu">지역구</label> <select name="major" id="major">
+			<option value="ALL">전체</option>
+			<option value="SC1">서초1동</option>
+			<option value="SC2">서초2동</option>
+		</select> <label for="major">동</label>
+		<button class="btn-search" id="search">검색</button>
+	</div>
+	<div class="map" id="inf">
+		<div id="map" class="mt-2" style="width: 100%; height: 500px"></div>
+	</div>
+	<div class="content">
+
+		<div class="content-left">
+			<div class="content-left-profile">광고 받습니다</div>
+			<div class="content-left-poll" style="display: none"></div>
+		</div>
+		<div class="content-section">
+			<section class="article">
+				<!-- 인기글 Article Start  -->
+				<article class="article_tips">
+					<h3>지혜롭게 내집 마련하기</h3>
+					<ul>
+						<li><a>가용자금 확인 및 대출 계획</a></li>
+						<li><a>집 종류 및 지역 선택</a></li>
+						<li><a>정보 수집 & 시세파악</a></li>
+						<li><a>부동산 방문 & 집구경</a></li>
+						<li><a>계약 및 잔금 치르기</a></li>
+						<li><a>소유권 이전등기</a></li>
+						<li><a>인테리어 공사</a></li>
+					</ul>
+				</article>
+				<!-- 인기글 Article End  -->
+
+				<!-- 최신글 Article Start  -->
+				<article class="article_news">
+					<h3>오늘의 뉴스</h3>
+					<ul>
+						<li><a>서울 아파트, 매매 전세 다른 양상 상승</a></li>
+						<li><a>서울 아파트, 매매 전세 다른 양상 상승</a></li>
+						<li><a>서울 아파트, 매매 전세 다른 양상 상승</a></li>
+						<li><a>서울 아파트, 매매 전세 다른 양상 상승</a></li>
+						<li><a>서울 아파트, 매매 전세 다른 양상 상승</a></li>
+					</ul>
+				</article>
+				<!-- 최신글 Article End  -->
+			</section>
+		</div>
+	</div>
+	<div class="footer">
+		<ul>
+			<li><a>사이트소개</a></li>
+			<li><a>개인정보처리방침</a></li>
+			<li><a>이용약관</a></li>
+			<li><a>오시는길</a></li>
+		</ul>
+	</div>
+	<div class="modal" id="loginModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">로그인</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form method="post" action="User">
+						<input type="hidden" name="action" value="login">
+						<div class="form-group">
+							<label for="idLogin"> id :</label> <input type="text"
+								class="form-control" placeholder="Enter email" id="id" name="id" />
+						</div>
+						<div class="form-group">
+							<label for="pswdLogin">Password:</label> <input type="password"
+								class="form-control" placeholder="Enter password" id="pw"
+								name="pw" />
+						</div>
+						<div class="form-group form-check">
+							<label class="form-check-label"> <input
+								class="form-check-input" type="checkbox" /> Remember me
+							</label>
+						</div>
+						<button type="submit" class="btn btn-primary">로그인</button>
+						<button type="button" class="btn btn-success" data-toggle="modal"
+							data-target="#signupModal">회원가입</button>
+					</form>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" id="signupModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">회원가입</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form method="post" action="User">
+						<input type="hidden" name="action" value="regist">
+						<div class="form-group">
+							<label for="id">ID</label> <input type="text"
+								class="form-control" placeholder="ID" id="id" name="id" />
+						</div>
+						<div class="form-group">
+							<label for="pswd1">비밀번호</label> <input type="password"
+								class="form-control" placeholder="password" id="pw" name="pw" />
+						</div>
+						<div class="form-group">
+							<label for="pswd2">비밀번호 확인</label> <input type="password"
+								class="form-control" placeholder="password" id="pw" />
+						</div>
+						<div class="form-group">
+							<label for="name">이름</label> <input type="text"
+								class="form-control" placeholder="이름" id="name" name="name" />
+						</div>
+						<div class="form-group">
+							<label for="age">나이</label> <input type="text"
+								class="form-control" placeholder="나이" id="age" name="age" />
+						</div>
+						<div class="form-group">
+							<label for="mobile">전화번호</label> <input type="text"
+								class="form-control" placeholder="전화번호" id="phone" name="phone" />
+						</div>
+						<div class="form-group form-check"></div>
+						<button type="submit" class="btn btn-success">가입</button>
+					</form>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" id="modifyModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">회원정보수정</h4>
+
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form method="post" action="User">
+						<input type="hidden" name="action" value="update">
+						<div class="form-group">
+							<label for="idMod">ID</label> <input type="text"
+								class="form-control" placeholder="ID" id="idMod" name="id" />
+						</div>
+						<div class="form-group">
+							<label for="pswd1Mod">비밀번호</label> <input type="password"
+								class="form-control" placeholder="password" id="pswd1Mod"
+								name="pw" />
+						</div>
+						<div class="form-group">
+							<label for="pswd2Mod">비밀번호 확인</label> <input type="password"
+								class="form-control" placeholder="password" id="pswd2Mod" />
+						</div>
+						<div class="form-group">
+							<label for="nameMod">이름</label> <input type="text"
+								class="form-control" placeholder="이름" id="nameMod" name="name" />
+						</div>
+						<div class="form-group">
+							<label for="ageMod">나이</label> <input type="text"
+								class="form-control" placeholder="나이" id="ageMod" name="age" />
+						</div>
+						<div class="form-group">
+							<label for="mobileMod">전화번호</label> <input type="text"
+								class="form-control" placeholder="전화번호" id="mobileMod"
+								name="phone" />
+						</div>
+						<div class="form-group form-check"></div>
+						<button type="submit" class="btn btn-primary">수정하기</button>
+					</form>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		window.onload = function() {
+			document.querySelector("#btnBoard").onclick = function() {
+				window.location.href = "/board"; // get page
+			}
+
+			/* document.querySelector("#navLogin").onclick = function() {
+				window.location.href = "/login";
+			} */
+
+			/* document.querySelector("#navRegister").onclick = function() {
+				window.location.href = "/register";
+			} */
+		}
+	</script>
+</body>
+</html>

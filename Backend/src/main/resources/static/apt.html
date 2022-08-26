@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<style>
+html, body {
+	margin: 0;
+}
+
+#nav {
+	height: 50px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	background-color: pink;
+}
+
+#nav img {
+	width: 36px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+
+#nav a {
+	color: darkolivegreen;
+	margin-right: 20px;
+}
+
+#nav a:link {
+	text-decoration: none;
+}
+
+#addressSelect {
+	top: 450px;
+	height: 50px;
+	width: 100%;
+	background-color: darkgray;
+	justify-content: center;
+	display: flex;
+	align-items: center;
+}
+
+#addressSelect select {
+	margin-right: 50px;
+	text-decoration: none;
+}
+
+#Info {
+	justify-content: center;
+	display: flex;
+}
+
+#information {
+	width: 20%;
+}
+
+#detail_map {
+	width: 70%;
+	margin: 20px;
+}
+
+#map {
+	height: 500px;
+	margin-top : 50px;
+} 
+
+#apartMap img {
+	width: 100%;
+}
+
+.selectApt {
+	height: 80px;
+	width: 250px;
+}
+
+.open {
+	display: block;
+}
+
+.close {
+	display: none;
+}
+</style>
+
+</head>
+<body>
+	<!-- 상단 로그인바 -->
+	<div>
+		<nav id="nav" calss="navbar navbar-light"
+			style="background-color: pink;">
+			<a id="home" href="index.html">HAPPY HOUSE</a>
+
+		</nav>
+	</div>
+
+	<div id="addressSelect">
+		<!-- <label for="address">전공</label>   -->
+		<form method="get" action="/HappyHouse4/house">
+			<input type="hidden" name="act" value="search"> <select
+				name="address1" id="address1" onchange="getGugun()">
+				<!-- multiple   -->
+				<option value="" selected>선택</option>
+				<option value="11">서울특별시</option>
+				<option value="26">부산광역시</option>
+				<option value="27">대구광역시</option>
+				<option value="28">인천광역시</option>
+				<option value="29">광주광역시</option>
+				<option value="30">대전광역시</option>
+				<option value="31">울산광역시</option>
+				<option value="36">세종특별자치시</option>
+				<option value="41">경기도</option>
+				<option value="32">강원도</option>
+				<option value="43">충청북도</option>
+				<option value="44">충청남도</option>
+				<option value="45">전라북도</option>
+				<option value="46">전라남도</option>
+				<option value="47">경상북도</option>
+				<option value="48">경상남도</option>
+				<option value="50">제주특별자치도</option>
+			</select> <select name="address2" id="address2" onchange="getDong();">
+				<option value="" selected>선택</option>
+			</select> <select name="address3" id="address3">
+				<option value="" selected>선택</option>
+			</select>
+			<button id="BtnSearch" type="button" class="btn btn-info">검색</button>
+		</form>
+	</div>
+
+	<div id="Info">
+		<div id="information">
+			<!-- 왼쪽 구역 -->
+			<h1>아파트</h1>
+
+
+		</div>
+
+		<div id="detail_map">
+			<!-- 오른쪽 구역 -->
+			<div id="detail">
+				<h1>거래정보</h1>
+
+			</div>
+
+			<div id="map">
+				<h1>map자리</h1>
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=87a3d0409b24dfd6528e22de6f87e856"></script>
+	<script>
+		var mapcontainer = document.getElementById("map");
+		var options = {
+			center: new kakao.maps.LatLng(33.450701, 126.570667), // 중심 좌표
+			level: 3
+		};
+
+		var map = new kakao.maps.Map(mapcontainer, options);
+		
+		// 마커가 표시될 위치 생성
+		var markerPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+		
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
+		
+	</script>
+
+
+	</div>
+	<script>
+        
+        window.onload = function(){ 
+           document.querySelector("#BtnSearch").onclick = function(){
+              Search();
+       
+         }
+        }
+        
+        async function Search(){
+           
+          var select = document.getElementById("address3")
+          var selectText = select.options[select.selectedIndex].text;  //선택된 동이름
+          
+          console.log(selectText);
+          try{
+             let response = await fetch("/search/" + selectText); // GET
+             let data = await response.json();
+             console.log(data); // 정렬 전 data 출력
+             makeListHtml_search(data);  //Array
+             
+             document.querySelector("#NameSort").onclick = function(){
+                 Sort(data);
+             }
+             
+             console.log(data); // 정렬 후 data 출력
+          }catch(error){
+             console.error(error);
+          }
+       }
+       
+       // 가나다 순으로 정렬하기
+       function Sort(list){
+    	   list.sort(function(a, b){
+          	 return a.AptName < b.AptName ? -1 : a.AptName > b.AptName ? 1 : 0;
+           });
+    	   makeListHtml_search(list);  //Array
+       }
+       
+       function makeListHtml_search(list){
+    	   let listHtml = `<br>
+				  <h1>거래정보</h1>
+				  <button id="NameSort" type="button" class="btn btn-info">가나다 순으로 보기</button>
+				  <br>
+				  <br>`;
+          list.forEach( el => {
+             listHtml += `<div class="apart">
+              <button id=${el.no} class="selectApt" onclick="detail(this.id)">
+                 <div><h4>${el.AptName}</h4></div>
+              </button>
+                </div>
+                <br>`;
+          });
+          document.querySelector("#information").innerHTML = listHtml;
+       } 
+       
+       //상세정보 띄우기
+       async function detail(house_no){
+            
+           console.log(house_no);
+           try{
+              let response = await fetch("/detail/" + house_no); // GET
+              console.log(response);
+              let data = await response.json();
+              console.log(data);
+              makeListHtml_detail(data);  //Array
+           }catch(error){
+              console.error(error);
+           }
+        }
+        
+       function makeListHtml_detail(list){
+           let listHtml = `<br><h1>거래정보</h1><br>`;
+           list.forEach( el => {
+              listHtml += `<div class="detail">
+                 아파트이름: ${el.AptName}   dealmount:${el.dealAmount}   건축년도:${el.buildYear}년   거래날짜: ${el.dealYear}년 ${el.dealMonth}월  ${el.dealDay}일
+                 </div>
+                 <br>`;
+           });
+           
+           document.querySelector("#detail").innerHTML = listHtml;
+        }
+       
+       
+
+       async function getGugun(){
+       
+          var select = document.getElementById("address1")
+          var selectValue = select.options[select.selectedIndex].value;
+          console.log(selectValue);
+          try{
+             let response = await fetch("/gugun/" + selectValue); // GET
+             let data = await response.json();
+             console.log(data);
+             makeListHtml_gugun(data);  //Array
+          }catch(error){
+             console.error(error);
+          }
+       }
+       
+       
+       function makeListHtml_gugun(list){
+          let listHtml = ``;
+          list.forEach( el => {
+             listHtml += `<option value=${el.code}>${el.name}</option>`;
+          });
+          
+          document.querySelector("#address2").innerHTML = listHtml;
+       }
+    
+    
+        async function getDong(){
+           
+           var select = document.getElementById("address2")
+          var selectValue = select.options[select.selectedIndex].value;
+          console.log(selectValue);
+          try{
+             let response = await fetch("/dong/" + selectValue); // GET
+             let data = await response.json();
+             console.log(data);
+             makeListHtml_dong(data);  //Array
+          }catch(error){
+             console.error(error);
+          }
+       }
+        
+        function makeListHtml_dong(list){
+          let listHtml = ``;
+          list.forEach( el => {
+             listHtml += `<option value=${el.code}>${el.name}</option>`;
+          });
+          
+          document.querySelector("#address3").innerHTML = listHtml;
+       }
+        
+        </script>
+</body>
+</html>

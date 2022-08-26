@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.mycom.happy.dao.HouseDao">
+
+    <select id="getSidoList" resultType="com.mycom.happy.dto.Sido">
+        select *
+        from sido_code
+    </select>
+	
+	<select id="getGugunList" parameterType="string" resultType="com.mycom.happy.dto.Gugun">
+		select *
+		from gugun_code
+		where sido_code = #{sido_code}
+	</select>
+	
+	<select id="getDongList" parameterType="string" resultType="com.mycom.happy.dto.Dong">
+		select *
+		from dong_code
+		where gugun_code = #{gugun_code}
+	</select>
+	
+	<select id="getAptList" parameterType="string" resultType="com.mycom.happy.dto.Dong">
+		select *
+		from dong_code
+		where gugun_code = #{gugun_code}
+	</select>
+	
+	<select id="search" parameterType="string" resultType="com.mycom.happy.dto.HouseInfo">
+		select * 
+		from houseinfo
+		where dong = #{dong}
+	</select>
+	
+	<select id="detail" parameterType="int" resultType="com.mycom.happy.dto.HouseDeal">
+		select no, dong, AptName, code, dealAmount, buildYear, dealYear, dealMonth, dealDay, ROUND(area ,2) as area , floor, jibun, type, rentMoney, house_no 
+		from housedeal
+		where house_no = #{houseNo}
+	</select>
+	
+	<select id="NameSearch" parameterType="String" resultType="com.mycom.happy.dto.HouseInfo">
+		select * 
+		from houseinfo
+		where Aptname like '%${name}%' 
+	</select>
+	
+	<select id="houseDetail" parameterType="int" resultType="com.mycom.happy.dto.HouseInfo">
+      select *
+      from houseinfo
+      where no = #{no}
+   </select>
+</mapper>
